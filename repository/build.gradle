@@ -1,0 +1,5 @@
+project(':repository'){
+	dependencies {
+		compile project(':model')	
+	}
+}
