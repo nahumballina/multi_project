@@ -1,0 +1,75 @@
+	buildscript{
+		dependencies{
+			classpath 'org.akhikhl.gretty:gretty:+'
+		}
+		repositories{
+			jcenter()
+		}
+	}
+	
+ext.projectIds = [
+					'group' : 'com.manning.gia',
+					'version' : '0.1'
+				 ]
+
+task hello{
+	doLast{
+		println "Hello from root"
+	}	
+}
+
+project(':model'){
+	apply plugin:'java'
+	group = projectIds.group
+	version = projectIds.version
+
+	task hello(dependsOn:':repository:hello'){
+		doLast{
+			println "Hello from model"	
+		}
+	}
+
+
+}
+
+project(':repository'){
+	apply plugin:'java'
+	group = projectIds.group
+	version = projectIds.version
+
+	task hello (dependsOn:':web:hello'){
+		doLast{
+			println "Hello from repository"
+		}	
+	}
+
+
+	dependencies {
+		compile project(':model')	
+	}
+
+}
+
+project(':web'){
+	apply plugin:'java'
+	apply plugin:'war'
+	apply plugin:'org.akhikhl.gretty'
+	
+	group = projectIds.group
+	version = projectIds.version
+
+	task hello{
+		doLast{
+			println "Hello from web"	
+		}
+	}
+
+		repositories{
+			jcenter()
+			mavenCentral()
+		}
+	
+	dependencies {
+		compile project(':repository')	
+	}
+}
