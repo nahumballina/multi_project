@@ -12,12 +12,6 @@ ext.projectIds = [
 					'version' : '0.1'
 				 ]
 
-task hello{
-	doLast{
-		println "Hello from root"
-	}	
-}
-
 allprojects{
 	group = projectIds.group
 	version = projectIds.version
@@ -27,46 +21,21 @@ subprojects{
 	apply plugin:'java'
 }
 
-project(':model'){
-		
-	task hello(dependsOn:':repository:hello'){
-		doLast{
-			println "Hello from model"	
-		}
-	}
-
-
-}
 
 project(':repository'){
-	
-	task hello (dependsOn:':web:hello'){
-		doLast{
-			println "Hello from repository"
-		}	
-	}
-
-
 	dependencies {
 		compile project(':model')	
 	}
-
 }
 
 project(':web'){
 	apply plugin:'war'
 	apply plugin:'org.akhikhl.gretty'
 	
-	task hello{
-		doLast{
-			println "Hello from web"	
-		}
+	repositories{
+		jcenter()
+		mavenCentral()
 	}
-
-		repositories{
-			jcenter()
-			mavenCentral()
-		}
 	
 	dependencies {
 		compile project(':repository')	
