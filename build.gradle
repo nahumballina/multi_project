@@ -18,11 +18,17 @@ task hello{
 	}	
 }
 
-project(':model'){
-	apply plugin:'java'
+allprojects{
 	group = projectIds.group
 	version = projectIds.version
+}
 
+subprojects{
+	apply plugin:'java'
+}
+
+project(':model'){
+		
 	task hello(dependsOn:':repository:hello'){
 		doLast{
 			println "Hello from model"	
@@ -33,10 +39,7 @@ project(':model'){
 }
 
 project(':repository'){
-	apply plugin:'java'
-	group = projectIds.group
-	version = projectIds.version
-
+	
 	task hello (dependsOn:':web:hello'){
 		doLast{
 			println "Hello from repository"
@@ -51,13 +54,9 @@ project(':repository'){
 }
 
 project(':web'){
-	apply plugin:'java'
 	apply plugin:'war'
 	apply plugin:'org.akhikhl.gretty'
 	
-	group = projectIds.group
-	version = projectIds.version
-
 	task hello{
 		doLast{
 			println "Hello from web"	
