@@ -10,10 +10,11 @@ import static org.junit.Assert.*;
 
 public class InMemoryToDoRepositoryTest {
     private ToDoRepository inMemoryToDoRepository;
-
+	private int elementos=0;
     @Before
     public void setUp() {
         inMemoryToDoRepository = new InMemoryToDoRepository();
+		elementos = Integer.parseInt(System.getProperty("items"));
     }
 
     @Test
@@ -30,17 +31,16 @@ public class InMemoryToDoRepositoryTest {
 	
 	@Test
     public void testAddToDoItem() {
-        ToDoItem newToDoItem = new ToDoItem();
-        newToDoItem.setName("Write unit tests1");
-        Long newId = inMemoryToDoRepository.insert(newToDoItem);
-        assertNotNull(newId);
+        ToDoItem newToDoItem;
+		Long newId;
+		for (int i=0;i<elementos;i++){
+			newToDoItem= new ToDoItem();
+			newToDoItem.setName("Write unit"+elementos);
+			newId = inMemoryToDoRepository.insert(newToDoItem);
+			assertNotNull(newId);
+		}
 		
-		newToDoItem = new ToDoItem();
-        newToDoItem.setName("Write unit tests2");
-        newId = inMemoryToDoRepository.insert(newToDoItem);
-        assertNotNull(newId);
-
-        assertEquals(inMemoryToDoRepository.findAll().size(), 2);
+        assertEquals(inMemoryToDoRepository.findAll().size(), elementos);
     }
 	
 }
